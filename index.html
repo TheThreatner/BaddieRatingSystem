@@ -6,39 +6,70 @@
   <title>Baddie Rating System</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    .hidden { display: none; }
+    body {
+      background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-top: 2rem;
+      border: 2px solid #60a5fa;
+    }
+    .btn-primary {
+      background-color: #3b82f6;
+      color: white;
+      transition: 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .btn-accent {
+      background-color: #f59e0b;
+    }
+    .btn-accent:hover {
+      background-color: #d97706;
+    }
+    .range-track::-webkit-slider-thumb {
+      background: #ef4444;
+    }
+    .range-track::-moz-range-thumb {
+      background: #ef4444;
+    }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="text-gray-800">
   <div class="max-w-2xl mx-auto p-4">
     <!-- Page 1: Rules -->
-    <div id="page-1">
-      <h1 class="text-2xl font-bold mb-4">📜 Instructions & Disclaimer</h1>
-      <ul class="list-disc pl-6 space-y-2">
-        <li>Only rate subjects with at least 80% of their body exposed.</li>
-        <li>Avoid rating if makeup or enhancements distort their natural appearance.</li>
-        <li>Detach all personal bias while scoring.</li>
-        <li>No one can score more than 6.5 naturally. Higher is considered rare or fictional.</li>
+    <div id="page-1" class="card">
+      <h1 class="text-3xl font-bold mb-4 text-blue-600">📜 Instructions & Disclaimer</h1>
+      <ul class="list-disc pl-6 space-y-2 text-lg">
+        <li>Rate only when at least 80% of body is visible.</li>
+        <li>No distorted scores due to makeup or heavy filters.</li>
+        <li>Score each factor from 0 to 1 based on realism.</li>
+        <li>Scores beyond 6.5 are rare, fictional, or enhanced figures.</li>
       </ul>
-      <p class="mt-6 text-sm text-red-600">
-        ⚠️ This project is meant for fun, subjective analysis, and artistic entertainment. Do not use it to disrespect or objectify others.
+      <p class="mt-6 text-sm text-red-600 italic">
+        ⚠️ This system is for fun, entertainment, and personal standards only. It must not be used to demean or judge real individuals without context or consent.
       </p>
-      <button onclick="nextPage()" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">I Agree & Start</button>
+      <button onclick="nextPage()" class="mt-6 btn-primary px-4 py-2 rounded">I Agree & Start</button>
     </div>
 
     <!-- Page 2: Sliders -->
-    <div id="page-2" class="hidden">
-      <h2 class="text-xl font-bold mb-4">Rate the Following Factors</h2>
-      <div id="sliders" class="space-y-4"></div>
-      <button onclick="nextPage()" class="mt-6 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Continue</button>
+    <div id="page-2" class="card hidden">
+      <h2 class="text-2xl font-bold mb-4 text-yellow-600">🎚️ Rate the Following Factors</h2>
+      <div id="sliders" class="space-y-6"></div>
+      <button onclick="nextPage()" class="mt-6 btn-accent text-white px-4 py-2 rounded">Continue</button>
     </div>
 
     <!-- Page 3: Result -->
-    <div id="page-3" class="hidden">
-      <h2 class="text-xl font-bold mb-4">🎯 Final Score</h2>
-      <p class="mb-2">Total Score: <span id="final-score">0.0</span>/10</p>
-      <p>Category: <span id="category">-</span></p>
-      <button onclick="location.reload()" class="mt-6 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">Restart</button>
+    <div id="page-3" class="card hidden">
+      <h2 class="text-2xl font-bold mb-4 text-red-500">🎯 Final Score</h2>
+      <p class="mb-2 text-lg">Total Score: <span id="final-score" class="font-semibold">0.0</span>/10</p>
+      <p class="text-lg">Category: <span id="category" class="font-semibold text-blue-500">-</span></p>
+      <button onclick="location.reload()" class="mt-6 btn-primary px-4 py-2 rounded">Restart</button>
     </div>
   </div>
 
@@ -72,9 +103,9 @@
       factors.forEach((factor, i) => {
         const wrapper = document.createElement("div");
         wrapper.innerHTML = `
-          <label class="block font-medium">${factor}</label>
-          <input type="range" min="0" max="1" step="0.1" value="0" oninput="updateScore(${i}, this.value)" class="w-full">
-          <p class="text-sm">Score: <span id="score-${i}">0.0</span></p>
+          <label class="block font-medium text-gray-700">${factor}</label>
+          <input type="range" min="0" max="1" step="0.1" value="0" oninput="updateScore(${i}, this.value)" class="w-full range-track">
+          <p class="text-sm text-gray-600">Score: <span id="score-${i}">0.0</span></p>
         `;
         container.appendChild(wrapper);
       });
@@ -103,3 +134,4 @@
   </script>
 </body>
 </html>
+
