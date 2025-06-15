@@ -1,8 +1,7 @@
 # 💯 Baddie Rating System
 
 A modern, web-based React app that allows users to rate physical appearance based on a 10-factor methodology. 
-
-here is the link to main webpage : https://thethreatner.github.io/BaddieRatingSystem/
+You can test this system by visiting this : https://thethreatner.github.io/BaddieRatingSystem/
 
 ### ⚠️ Disclaimer
 
