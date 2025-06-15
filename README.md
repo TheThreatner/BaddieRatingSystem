@@ -12,7 +12,7 @@ Use responsibly. Don’t be weird.
 
 ## 🧠 Core Concept
 
-This system is not a porn rating tool — it's a framework for identifying real 10/10s based on disciplined scoring. Using 10 factors, each scored 0–1, the system defines tiers from "Regular" to "God Tier".
+This system is not a porn rating tool — it's a framework for identifying real 10/10s based on disciplined scoring. Using 10 factors, each scored 0–1, the system defines tiers from "Regular" to "God Tier". The base pdf which is used to design this is provided too named as "RATING SYSTEM.pdf" in this repository. You can also use this link to visit it : https://github.com/TheThreatner/BaddieRatingSystem/blob/main/RATING%20SYSTEM.pdf
 
 ### 🔟 Factors:
 - Facial Structure
