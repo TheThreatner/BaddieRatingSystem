@@ -2,6 +2,8 @@
 
 A modern, web-based React app that allows users to rate physical appearance based on a 10-factor methodology. 
 
+here is the link to main webpage : https://thethreatner.github.io/BaddieRatingSystem/
+
 ### ⚠️ Disclaimer
 
 This project is meant for personal amusement, aesthetic analysis, and subjective evaluation in fictional, artistic, or entertainment contexts only.  
