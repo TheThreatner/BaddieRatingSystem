@@ -40,8 +40,30 @@
       background: #ef4444;
     }
     #certificate {
-      background: linear-gradient(to bottom right, #e0f7ff, #ffffff);
-      color: #1e3a8a;
+  position: relative;
+  background-image: url('back.png'); /* Ensure back.png is in the same folder or adjust the path */
+  background-size: cover;
+  background-position: center;
+  border: 4px solid #facc15; /* yellow-400 */
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #0c0c0c; /* fallback text color for readability */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+#certificate h3 {
+  color: #1d4ed8; /* blue-700 */
+}
+
+#certificate span,
+#certificate p {
+  color: #111827; /* gray-900 */
+}
+
+#cert-category {
+  color: #dc2626; /* red-600 */
+}
+
     }
   </style>
 </head>
