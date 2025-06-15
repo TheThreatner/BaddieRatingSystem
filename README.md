@@ -34,15 +34,15 @@ This system is not a porn rating tool — it's a framework for identifying real 
 - **Total score:** Max 10 (with optional Personal Bias added only at full 10).
 - **Final Category:** Auto-calculated and labeled (Regular, Top Ones, Only Fiction, Absolute Cinema, etc).
 
-## 💠 Upcoming Features 
-
-- Leaderboard
-- Better Certificates
-- New Designs (less likey to occur tbh)
-
 ## 📦 Features
 
 - Real-time scoring with sliders
 - Category auto-detection
 - Personal Bias slider (unlocks only at 10/10)
 - Clear instructions & methodology display
+
+## 💠 Upcoming Features 
+
+- Leaderboard
+- Better Certificates
+- New Designs (less likey to occur tbh)
