@@ -39,6 +39,10 @@
     .range-track::-moz-range-thumb {
       background: #ef4444;
     }
+    #certificate {
+      background: linear-gradient(to bottom right, #e0f7ff, #ffffff);
+      color: #1e3a8a;
+    }
   </style>
 </head>
 <body class="text-gray-800">
@@ -70,14 +74,18 @@
       <h2 class="text-2xl font-bold mb-4 text-red-500">🎯 Final Score</h2>
       <p class="mb-2 text-lg">Total Score: <span id="final-score" class="font-semibold">0.0</span>/10</p>
       <p class="text-lg">Category: <span id="category" class="font-semibold text-blue-500">-</span></p>
+      <div id="bias-section" class="mt-4 hidden">
+        <label class="block mb-1">Personal Bias Points (0-5)</label>
+        <input id="bias-input" type="number" min="0" max="5" value="0" class="w-full border px-3 py-2 rounded" oninput="applyBias()">
+      </div>
       <div class="mt-6">
         <label class="block mb-1">Your Name (for Certificate)</label>
         <input id="user-name" type="text" placeholder="e.g., TheThreatner" class="w-full border px-3 py-2 rounded">
       </div>
       <button onclick="generateCertificate()" class="mt-6 btn-primary px-4 py-2 rounded">Generate Certificate</button>
       <div id="certificate-section" class="mt-6 hidden">
-        <div id="certificate" class="p-6 border-4 border-yellow-400 bg-white rounded-xl text-center">
-          <h3 class="text-xl font-bold text-blue-700 mb-2">🏅 Certified Baddie Rater</h3>
+        <div id="certificate" class="p-6 border-4 border-yellow-400 rounded-xl text-center">
+          <h3 class="text-xl font-bold mb-2">🏅 Certified Baddie Rater</h3>
           <p class="text-lg">This certifies that <span id="cert-name" class="font-semibold"></span></p>
           <p class="text-lg">has officially rated a <span id="cert-score" class="font-semibold"></span>/10</p>
           <p class="text-lg">Category: <span id="cert-category" class="font-semibold text-red-600"></span></p>
@@ -91,6 +99,7 @@
 
   <script>
     let currentPage = 1;
+    let total = 0;
     const scores = Array(10).fill(0);
     const factors = [
       "Facial Structure",
@@ -133,19 +142,27 @@
     }
 
     function showResult() {
-      const total = scores.reduce((a, b) => a + b, 0);
+      total = scores.reduce((a, b) => a + b, 0);
       document.getElementById("final-score").textContent = total.toFixed(1);
 
       let category = "";
       if (total <= 3) category = "Regular ones";
-      else if (total <= 6) category = "Average Stars (adult ones included)";
+      else if (total <= 6) category = "Average Celebs (adult ones included)";
       else if (total <= 6.9) category = "Top ones in the world";
       else if (total <= 7.9) category = "Fiction level only";
       else if (total <= 9.9) category = "Absolute Cinema";
-      else if (total === 10) category = "10/10 Baddie";
-      else category = "God Tier (Personal Bias)";
+      else if (total === 10) {
+        category = "10/10 Baddie";
+        document.getElementById("bias-section").classList.remove("hidden");
+      } else category = "God Tier (Personal Bias)";
 
       document.getElementById("category").textContent = category;
+    }
+
+    function applyBias() {
+      const bias = parseFloat(document.getElementById("bias-input").value) || 0;
+      const newTotal = Math.min(10 + bias, 15);
+      document.getElementById("final-score").textContent = newTotal.toFixed(1);
     }
 
     function generateCertificate() {
