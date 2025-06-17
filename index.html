@@ -9,67 +9,62 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body {
-  background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.card {
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin-top: 2rem;
-  border: 2px solid #60a5fa;
-}
-.btn-primary {
-  background-color: #3b82f6;
-  color: white;
-  transition: 0.3s;
-}
-.btn-primary:hover {
-  background-color: #2563eb;
-}
-.btn-accent {
-  background-color: #f59e0b;
-}
-.btn-accent:hover {
-  background-color: #d97706;
-}
-.range-track::-webkit-slider-thumb {
-  background: #ef4444;
-}
-.range-track::-moz-range-thumb {
-  background: #ef4444;
-}
-
-#certificate {
-  position: relative;
-  background-image: url('https://raw.githubusercontent.com/TheThreatner/BaddieRatingSystem/main/back.png');
-  background-size: cover;
-  background-position: center;
-  border: 4px solid #facc15;
-  border-radius: 1rem;
-  padding: 2rem;
-  color: #60a5fa; /* Default text color light blue */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-#certificate h3 {
-  color: #3b82f6; /* Bright blue title */
-}
-
-#certificate span,
-#certificate p {
-  color: cyan; /* Light blue font for general text */
-}
-
-#cert-category {
-  color: cyan; /* Keep category in strong red */
-}  
+      background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-top: 2rem;
+      border: 2px solid #60a5fa;
+    }
+    .btn-primary {
+      background-color: #3b82f6;
+      color: white;
+      transition: 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+    .btn-accent {
+      background-color: #f59e0b;
+    }
+    .btn-accent:hover {
+      background-color: #d97706;
+    }
+    .range-track::-webkit-slider-thumb {
+      background: #ef4444;
+    }
+    .range-track::-moz-range-thumb {
+      background: #ef4444;
+    }
+    #certificate {
+      position: relative;
+      background-image: url('https://raw.githubusercontent.com/TheThreatner/BaddieRatingSystem/main/back.png');
+      background-size: cover;
+      background-position: center;
+      border: 4px solid #facc15;
+      border-radius: 1rem;
+      padding: 2rem;
+      color: #60a5fa;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    #certificate h3 {
+      color: #3b82f6;
+    }
+    #certificate span,
+    #certificate p {
+      color: cyan;
+    }
+    #cert-category {
+      color: cyan;
+    }
   </style>
 </head>
 <body class="text-gray-800">
   <div class="max-w-2xl mx-auto p-4">
-    <!-- Page 1: Rules -->
     <div id="page-1" class="card">
       <h1 class="text-3xl font-bold mb-4 text-blue-600">📜 Instructions & Disclaimer</h1>
       <ul class="list-disc pl-6 space-y-2 text-lg">
@@ -77,22 +72,20 @@
         <li>No distorted scores due to makeup or heavy filters.</li>
         <li>Score each factor from 0 to 1 based on realism.</li>
         <li>Scores beyond 6.5 are rare, fictional, or enhanced figures.</li>
-        <li>Scores are highly subjective and personal preference based, It would mean that they differ from one rater to another rater even if SUBJECT is same.</li>
+        <li>Scores are highly subjective and personal preference based.</li>
       </ul>
       <p class="mt-6 text-sm text-red-600 italic">
-        ⚠️ This system is for fun, entertainment, and personal standards only. It must not be used to demean or judge real individuals without context or consent.
+        ⚠️ This system is for fun and personal standards only.
       </p>
       <button onclick="nextPage()" class="mt-6 btn-primary px-4 py-2 rounded">I Agree & Start</button>
     </div>
 
-    <!-- Page 2: Sliders -->
     <div id="page-2" class="card hidden">
       <h2 class="text-2xl font-bold mb-4 text-yellow-600">🎚️ Rate the Following Factors</h2>
       <div id="sliders" class="space-y-6"></div>
       <button onclick="nextPage()" class="mt-6 btn-accent text-white px-4 py-2 rounded">Continue</button>
     </div>
 
-    <!-- Page 3: Result -->
     <div id="page-3" class="card hidden">
       <h2 class="text-2xl font-bold mb-4 text-red-500">🎯 Final Score</h2>
       <p class="mb-2 text-lg">Total Score: <span id="final-score" class="font-semibold">0.0</span>/10</p>
@@ -118,23 +111,23 @@
       </div>
       <button onclick="location.reload()" class="mt-6 block btn-primary px-4 py-2 rounded">Restart</button>
     </div>
+
+    <!-- Leaderboard Section -->
+    <div class="card mt-6">
+      <h2 class="text-2xl font-bold mb-4 text-purple-600">🏆 Leaderboard</h2>
+      <ul id="leaderboard" class="space-y-1 text-left text-lg"></ul>
+    </div>
   </div>
 
   <script>
+    const GOOGLE_SCRIPT_URL = 'YOUR_SCRIPT_URL'; // Replace with your actual deployed Google Script URL
+
     let currentPage = 1;
     let total = 0;
     const scores = Array(10).fill(0);
     const factors = [
-      "Facial Structure",
-      "Hairstyle",
-      "Body Shape",
-      "Breast",
-      "Ass",
-      "Hairs",
-      "Personality",
-      "Physique",
-      "Skin",
-      "Capabilities"
+      "Facial Structure", "Hairstyle", "Body Shape", "Breast", "Ass",
+      "Hairs", "Personality", "Physique", "Skin", "Capabilities"
     ];
 
     function nextPage() {
@@ -199,6 +192,12 @@
       document.getElementById("cert-category").textContent = category;
       document.getElementById("cert-date").textContent = date;
       document.getElementById("certificate-section").classList.remove("hidden");
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ name, score: parseFloat(score) }),
+        headers: { "Content-Type": "application/json" }
+      }).catch(console.error);
     }
 
     function downloadCertificate() {
@@ -209,6 +208,21 @@
         link.click();
       });
     }
+
+    function loadLeaderboard() {
+      fetch(GOOGLE_SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+          const leaderboard = document.getElementById("leaderboard");
+          const sorted = data.sort((a, b) => b.score - a.score).slice(0, 10);
+          leaderboard.innerHTML = sorted.map(entry => `<li><strong>${entry.name}</strong>: ${entry.score}</li>`).join('');
+        })
+        .catch(() => {
+          document.getElementById("leaderboard").innerHTML = "<li>Failed to load leaderboard.</li>";
+        });
+    }
+
+    window.onload = loadLeaderboard;
   </script>
 </body>
 </html>
