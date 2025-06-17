@@ -1,78 +1,14 @@
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<link href="https://raw.githubusercontent.com/TheThreatner/BaddieRatingSystem/refs/heads/main/favicon.png" rel="icon" type="image/png"/>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Baddie Rating System</title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-const GOOGLE_SCRIPT_URL = 'https://corsproxy.io/?https://script.google.com/macros/s/AKfycbwVzyhgg7dKsrOI5qJCQKChJmnIY7WODOPW4hDcWaql1K8MIjG5r7Ytjx7KID7dK0A/exec'; // TODO: Replace with your actual Apps Script URL
-
-function submitToLeaderboard(name, score, category, date) {
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({ name, score, category, date }),
-    headers: { "Content-Type": "application/json" },
-  })
-  .then((res) => res.json())
-  .then((data) => console.log("Submitted to Google Sheet:", data))
-  .catch((err) => console.error("Submission error:", err));
-}
-
-function loadLeaderboard() {
-  fetch(GOOGLE_SCRIPT_URL)
-    .then(res => res.json())
-    .then(data => {
-      const leaderboard = document.getElementById("leaderboard");
-      const sorted = data.sort((a, b) => b.score - a.score).slice(0, 10);
-      leaderboard.innerHTML = sorted.map(entry =>
-        `<li><strong>${entry.name}</strong>: ${entry.score} (${entry.category})</li>`
-      ).join('');
-    })
-    .catch(err => {
-      document.getElementById("leaderboard").innerHTML = "<li>Failed to load leaderboard.</li>";
-      console.error("Fetch error:", err);
-    });
-}
-
-window.onload = loadLeaderboard;
-
-
-const GOOGLE_SCRIPT_URL = 'https://corsproxy.io/?https://script.google.com/macros/s/AKfycbwVzyhgg7dKsrOI5qJCQKChJmnIY7WODOPW4hDcWaql1K8MIjG5r7Ytjx7KID7dK0A/exec'; // TODO: Replace with your actual Apps Script URL
-
-function submitToLeaderboard(name, score, category, date) {
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({ name, score, category, date }),
-    headers: { "Content-Type": "application/json" },
-  })
-  .then((res) => res.json())
-  .then((data) => console.log("Submitted to Google Sheet:", data))
-  .catch((err) => console.error("Submission error:", err));
-}
-
-function loadLeaderboard() {
-  fetch(GOOGLE_SCRIPT_URL)
-    .then(res => res.json())
-    .then(data => {
-      const leaderboard = document.getElementById("leaderboard");
-      const sorted = data.sort((a, b) => b.score - a.score).slice(0, 10);
-      leaderboard.innerHTML = sorted.map(entry =>
-        `<li><strong>${entry.name}</strong>: ${entry.score} (${entry.category})</li>`
-      ).join('');
-    })
-    .catch(err => {
-      document.getElementById("leaderboard").innerHTML = "<li>Failed to load leaderboard.</li>";
-      console.error("Fetch error:", err);
-    });
-}
-
-window.onload = loadLeaderboard;
-</script>
-<style>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/TheThreatner/BaddieRatingSystem/refs/heads/main/favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baddie Rating System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
     body {
   background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -133,63 +69,59 @@ window.onload = loadLeaderboard;
   </style>
 </head>
 <body class="text-gray-800">
-<div class="max-w-2xl mx-auto p-4">
-<!-- Page 1: Rules -->
-<div class="card" id="page-1">
-<h1 class="text-3xl font-bold mb-4 text-blue-600">📜 Instructions &amp; Disclaimer</h1>
-<ul class="list-disc pl-6 space-y-2 text-lg">
-<li>Rate only when at least 80% of body is visible.</li>
-<li>No distorted scores due to makeup or heavy filters.</li>
-<li>Score each factor from 0 to 1 based on realism.</li>
-<li>Scores beyond 6.5 are rare, fictional, or enhanced figures.</li>
-<li>Scores are highly subjective and personal preference based, It would mean that they differ from one rater to another rater even if SUBJECT is same.</li>
-</ul>
-<p class="mt-6 text-sm text-red-600 italic">
+  <div class="max-w-2xl mx-auto p-4">
+    <!-- Page 1: Rules -->
+    <div id="page-1" class="card">
+      <h1 class="text-3xl font-bold mb-4 text-blue-600">📜 Instructions & Disclaimer</h1>
+      <ul class="list-disc pl-6 space-y-2 text-lg">
+        <li>Rate only when at least 80% of body is visible.</li>
+        <li>No distorted scores due to makeup or heavy filters.</li>
+        <li>Score each factor from 0 to 1 based on realism.</li>
+        <li>Scores beyond 6.5 are rare, fictional, or enhanced figures.</li>
+        <li>Scores are highly subjective and personal preference based, It would mean that they differ from one rater to another rater even if SUBJECT is same.</li>
+      </ul>
+      <p class="mt-6 text-sm text-red-600 italic">
         ⚠️ This system is for fun, entertainment, and personal standards only. It must not be used to demean or judge real individuals without context or consent.
       </p>
-<button class="mt-6 btn-primary px-4 py-2 rounded" onclick="nextPage()">I Agree &amp; Start</button>
-</div>
-<!-- Page 2: Sliders -->
-<div class="card hidden" id="page-2">
-<h2 class="text-2xl font-bold mb-4 text-yellow-600">🎚️ Rate the Following Factors</h2>
-<div class="space-y-6" id="sliders"></div>
-<button class="mt-6 btn-accent text-white px-4 py-2 rounded" onclick="nextPage()">Continue</button>
-</div>
-<!-- Page 3: Result -->
-<div class="card hidden" id="page-3">
-<h2 class="text-2xl font-bold mb-4 text-red-500">🎯 Final Score</h2>
-<p class="mb-2 text-lg">Total Score: <span class="font-semibold" id="final-score">0.0</span>/10</p>
-<p class="text-lg">Category: <span class="font-semibold text-blue-500" id="category">-</span></p>
-<div class="mt-4 hidden" id="bias-section">
-<label class="block mb-1">Personal Bias Points (0-5)</label>
-<input class="w-full border px-3 py-2 rounded" id="bias-input" max="5" min="0" oninput="applyBias()" type="number" value="0"/>
-</div>
-<div class="mt-6">
-<label class="block mb-1">Your Name (for Certificate)</label>
-<input class="w-full border px-3 py-2 rounded" id="user-name" placeholder="e.g., TheThreatner" type="text"/>
-</div>
-<button class="mt-6 btn-primary px-4 py-2 rounded" onclick="generateCertificate()">Generate Certificate</button>
-<div class="mt-6 hidden" id="certificate-section">
-<div class="p-6 border-4 border-yellow-400 rounded-xl text-center" id="certificate">
-<h3 class="text-xl font-bold mb-2">🏅 Certified Baddie Rater</h3>
-<p class="text-lg">This certifies that <span class="font-semibold" id="cert-name"></span></p>
-<p class="text-lg">has officially rated a <span class="font-semibold" id="cert-score"></span>/10</p>
-<p class="text-lg">Category: <span class="font-semibold text-red-600" id="cert-category"></span></p>
-<p class="mt-4 italic text-sm">Signed by TheThreatner · <span id="cert-date"></span></p>
-</div>
-<button class="mt-4 btn-accent px-4 py-2 rounded" onclick="downloadCertificate()">Download Certificate</button>
-</div>
-<button class="mt-6 block btn-primary px-4 py-2 rounded" onclick="location.reload()">Restart</button>
-<!-- Leaderboard Section -->
-<div class="card mt-6">
-<h2 class="text-2xl font-bold mb-4 text-purple-600">🏆 Leaderboard</h2>
-<ul class="space-y-1 text-left text-lg" id="leaderboard"></ul>
-</div>
-</div><div class="card mt-6">
-<h2 class="text-2xl font-bold mb-4 text-purple-600">🏆 Leaderboard</h2>
-<ul class="space-y-1 text-left text-lg" id="leaderboard"></ul>
-</div>
-<script>
+      <button onclick="nextPage()" class="mt-6 btn-primary px-4 py-2 rounded">I Agree & Start</button>
+    </div>
+
+    <!-- Page 2: Sliders -->
+    <div id="page-2" class="card hidden">
+      <h2 class="text-2xl font-bold mb-4 text-yellow-600">🎚️ Rate the Following Factors</h2>
+      <div id="sliders" class="space-y-6"></div>
+      <button onclick="nextPage()" class="mt-6 btn-accent text-white px-4 py-2 rounded">Continue</button>
+    </div>
+
+    <!-- Page 3: Result -->
+    <div id="page-3" class="card hidden">
+      <h2 class="text-2xl font-bold mb-4 text-red-500">🎯 Final Score</h2>
+      <p class="mb-2 text-lg">Total Score: <span id="final-score" class="font-semibold">0.0</span>/10</p>
+      <p class="text-lg">Category: <span id="category" class="font-semibold text-blue-500">-</span></p>
+      <div id="bias-section" class="mt-4 hidden">
+        <label class="block mb-1">Personal Bias Points (0-5)</label>
+        <input id="bias-input" type="number" min="0" max="5" value="0" class="w-full border px-3 py-2 rounded" oninput="applyBias()">
+      </div>
+      <div class="mt-6">
+        <label class="block mb-1">Your Name (for Certificate)</label>
+        <input id="user-name" type="text" placeholder="e.g., TheThreatner" class="w-full border px-3 py-2 rounded">
+      </div>
+      <button onclick="generateCertificate()" class="mt-6 btn-primary px-4 py-2 rounded">Generate Certificate</button>
+      <div id="certificate-section" class="mt-6 hidden">
+        <div id="certificate" class="p-6 border-4 border-yellow-400 rounded-xl text-center">
+          <h3 class="text-xl font-bold mb-2">🏅 Certified Baddie Rater</h3>
+          <p class="text-lg">This certifies that <span id="cert-name" class="font-semibold"></span></p>
+          <p class="text-lg">has officially rated a <span id="cert-score" class="font-semibold"></span>/10</p>
+          <p class="text-lg">Category: <span id="cert-category" class="font-semibold text-red-600"></span></p>
+          <p class="mt-4 italic text-sm">Signed by TheThreatner · <span id="cert-date"></span></p>
+        </div>
+        <button onclick="downloadCertificate()" class="mt-4 btn-accent px-4 py-2 rounded">Download Certificate</button>
+      </div>
+      <button onclick="location.reload()" class="mt-6 block btn-primary px-4 py-2 rounded">Restart</button>
+    </div>
+  </div>
+
+  <script>
     let currentPage = 1;
     let total = 0;
     const scores = Array(10).fill(0);
@@ -268,9 +200,6 @@ window.onload = loadLeaderboard;
       document.getElementById("cert-category").textContent = category;
       document.getElementById("cert-date").textContent = date;
       document.getElementById("certificate-section").classList.remove("hidden");
-
-  submitToLeaderboard(name, parseFloat(score), category, date);
-
     }
 
     function downloadCertificate() {
@@ -281,38 +210,6 @@ window.onload = loadLeaderboard;
         link.click();
       });
     }
-  
-const GOOGLE_SCRIPT_URL = 'https://corsproxy.io/?https://script.google.com/macros/s/AKfycbwVzyhgg7dKsrOI5qJCQKChJmnIY7WODOPW4hDcWaql1K8MIjG5r7Ytjx7KID7dK0A/exec'; // TODO: Replace with your actual Apps Script URL
-
-function submitToLeaderboard(name, score, category, date) {
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({ name, score, category, date }),
-    headers: { "Content-Type": "application/json" },
-  })
-  .then((res) => res.json())
-  .then((data) => console.log("Submitted to Google Sheet:", data))
-  .catch((err) => console.error("Submission error:", err));
-}
-
-function loadLeaderboard() {
-  fetch(GOOGLE_SCRIPT_URL)
-    .then(res => res.json())
-    .then(data => {
-      const leaderboard = document.getElementById("leaderboard");
-      const sorted = data.sort((a, b) => b.score - a.score).slice(0, 10);
-      leaderboard.innerHTML = sorted.map(entry =>
-        `<li><strong>${entry.name}</strong>: ${entry.score} (${entry.category})</li>`
-      ).join('');
-    })
-    .catch(err => {
-      document.getElementById("leaderboard").innerHTML = "<li>Failed to load leaderboard.</li>";
-      console.error("Fetch error:", err);
-    });
-}
-
-window.onload = loadLeaderboard;
-
-</script>
-</div></body>
+  </script>
+</body>
 </html>
